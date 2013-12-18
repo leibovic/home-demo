@@ -1,22 +1,39 @@
 const { classes: Cc, interfaces: Ci, utils: Cu } = Components;
 
 Cu.import("resource://gre/modules/Home.jsm");
+Cu.import("resource://gre/modules/Services.jsm");
 
 // Keep track of the message id so that we can remove it.
 var gMessageId;
 
 function loadIntoWindow(window) {
   gMessageId = Home.banner.add({
-    text: "Follow @FennecNightly on Twitter!",
+    // 140 characters
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec purus in ante pretium blandit. Aliquam erat volutpat. Nulla libero lectus.",
     icon: "chrome://homedemo/skin/fennecIcon.png",
     onclick: function() {
-      window.BrowserApp.addTab("https://twitter.com/FennecNightly");
+      Services.console.logStringMessage("Demo banner message clicked");
+    },
+    onshown: function() {
+      Services.console.logStringMessage("Demo banner message shown");
     }
+  });
+
+  Home.lists.add({
+    id: "fake-provider",
+    title: "Sweet Sites"
+  });
+
+  Home.lists.add({
+    id: "fake-provider-2",
+    title: "Social Stuff"
   });
 }
 
 function unloadFromWindow(window) {
   Home.banner.remove(gMessageId);
+
+  ["fake-provider", "fake-provider-2"].forEach(id => Home.lists.remove(id));
 }
 
 /**
