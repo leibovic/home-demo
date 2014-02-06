@@ -111,7 +111,7 @@ fi
 
 # generate the XPI file
 echo "Generating $APP_NAME.xpi..."
-zip -r ../$APP_NAME.xpi *
+zip -r $APP_NAME.xpi *
 
 cd "$ROOT_DIR"
 
@@ -130,7 +130,7 @@ echo "Done!"
 $AFTER_BUILD
 
 if [ $PUSH_TO_DEVICE = 1 ]; then
-  adb push ../$APP_NAME.xpi /sdcard/$APP_NAME.xpi
+  adb push $APP_NAME.xpi /sdcard/$APP_NAME.xpi
   adb shell am start -a android.intent.action.VIEW \
                      -c android.intent.category.DEFAULT \
                      -d file:///mnt/sdcard/$APP_NAME.xpi \
